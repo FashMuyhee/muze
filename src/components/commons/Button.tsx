@@ -20,7 +20,7 @@ export const Button = ({
   const bg = React.useMemo(() => {
     if (disabled) return '#EAE7F2';
     return bgColor;
-  }, [disabled]);
+  }, [disabled, bgColor]);
 
   return (
     <TouchableNativeFeedback onPress={onPress} disabled={isDisabled}>
@@ -30,7 +30,7 @@ export const Button = ({
         ) : (
           <>
             {icon}
-            <Text textAlign="center" color={textColor} fontSize={17} fontWeight={withIcon ? 'regular' : 'bold'}>
+            <Text textAlign="center" color={textColor} fontSize={15} fontWeight={withIcon ? 'regular' : 'bold'}>
               {isLoading ? 'Loading' : text}
             </Text>
           </>
@@ -42,7 +42,7 @@ export const Button = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: 56,
+    height: 45,
     width: '100%',
     borderRadius: 10,
     flexDirection: 'row',
