@@ -1,19 +1,16 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React from 'react';
 import { SW } from '@constants/utilts';
 import { COLORS } from '@constants';
 import { Button } from '@components';
 import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 type Props = {};
 
 export const IntroBottomSheet = (props: Props) => {
-  const { bottom } = useSafeAreaInsets();
-
   return (
-    <View style={[styles.container, { paddingBottom: bottom * 1.5 }]}>
+    <View style={[styles.container]}>
       <Button bgColor="white" icon={<Ionicons name="logo-apple" size={20} />} textColor={COLORS.black} text="Continue with Apple" />
       <Button
         bgColor="#EA4335"
@@ -54,5 +51,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    paddingBottom: 35,
   },
 });
