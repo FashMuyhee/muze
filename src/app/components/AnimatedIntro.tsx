@@ -55,7 +55,7 @@ const content = [
     fontColor: COLORS.orange,
   },
   {
-    title: "Create with Muze.",
+    title: 'Create with Muze.',
     bg: COLORS.selected,
     fontColor: COLORS.teal,
   },
@@ -217,14 +217,14 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     left: '0%',
-    height: 44,
+    height: 64,
   },
   ball: {
-    width: 40,
+    width: 60,
     zIndex: 10,
-    height: 40,
+    height: 60,
     backgroundColor: '#000',
-    borderRadius: 20,
+    borderRadius: 30,
     position: 'absolute',
     left: '0%',
   },
@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
   },
   content: {
     marginTop: 300,
+    justifyContent: 'center',
   },
 });
 export const AnimatedIntro = memo(AnimatedIntroBase);
