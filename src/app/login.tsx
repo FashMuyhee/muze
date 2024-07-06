@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
 import React from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import { COLORS } from '@constants';
@@ -14,6 +14,7 @@ const Login = (props: Props) => {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const ref = React.useRef<TextInput>(null);
 
   const { isLoading: signingIn, submit: signIn } = onSignIn({ email, password });
   const { isLoading: signingUp, submit: signUp } = onSignUp({ email, password });
@@ -29,15 +30,15 @@ const Login = (props: Props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView automaticallyAdjustKeyboardInsets keyboardDismissMode="interactive" keyboardShouldPersistTaps="handled" style={styles.container}>
       <Image source={require('@assets/images/logo.png')} style={styles.logo} />
       <Text fontWeight="bold" fontSize={25} textAlign="center">
         {isLogin ? 'Welcome Back' : 'Create an Account'}
       </Text>
 
       <View style={{ flex: 1, marginTop: '10%' }}>
-        <TextField placeholder="john@example.com" value={email} onChangeText={setEmail} isPassword={false} />
-        <TextField placeholder="password" value={password} onChangeText={setPassword} isPassword />
+        <TextField onSubmit={() => ref.current?.focus()} placeholder="john@example.com" value={email} onChangeText={setEmail} isPassword={false} />
+        <TextField isSubmittingField ref={ref} onSubmit={onSubmit} placeholder="password" value={password} onChangeText={setPassword} isPassword />
         <Button onPress={onSubmit} isLoading={isLoading} text={isLogin ? 'Login' : 'Create Account'} style={{ marginTop: '10%' }} />
         <Text
           onPress={() => router.push({ pathname: '/login', params: { type: isLogin ? 'register' : 'login' } })}
@@ -47,7 +48,7 @@ const Login = (props: Props) => {
           {isLogin ? "Don't have an Account, Sign-Up" : 'Already have an Account,Sign-in'}
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

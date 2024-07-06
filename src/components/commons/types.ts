@@ -42,4 +42,6 @@ export interface TextFieldProps {
   onChangeText: (v: string) => void;
   placeholder: string;
   isPassword: boolean;
+  onSubmit: () => void;
+  isSubmittingField?: boolean;
 }

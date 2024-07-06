@@ -24,6 +24,9 @@ const TextField = React.forwardRef<TextInput, TextFieldProps>(({ isPassword, ...
         secureTextEntry={isConfiscate}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
+        keyboardType={isPassword ? 'default' : 'email-address'}
+        onSubmitEditing={props.onSubmit}
+        returnKeyType={props.isSubmittingField ? 'done' : 'next'}
         {...props}
       />
       {isPassword && (
