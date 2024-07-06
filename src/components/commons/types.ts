@@ -36,3 +36,10 @@ export interface IconButtonProps {
 }
 
 export type TextInputType = 'text' | 'password' | 'email' | 'url';
+
+export interface TextFieldProps {
+  value: string;
+  onChangeText: (v: string) => void;
+  placeholder: string;
+  isPassword: boolean;
+}
