@@ -31,7 +31,7 @@ export const Text: React.FunctionComponent<TextProps> = ({
   return (
     <RNText
       onPress={onPress}
-      style={[{ textTransform, color, fontSize, textAlign }, style]}
+      style={[{ textTransform, color, fontSize, textAlign, fontWeight }, style]}
       numberOfLines={truncate ? (numberLines ? numberLines : 1) : numberLines}
       lineBreakMode="tail"
       textBreakStrategy="simple"

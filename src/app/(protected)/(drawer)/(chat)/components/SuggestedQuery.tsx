@@ -44,14 +44,6 @@ export const SuggestedQuery = (props: Props) => {
 
 const styles = StyleSheet.create({
   suggestion: {
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
     minHeight: 65,
     width: SW * 0.55,
     padding: 10,

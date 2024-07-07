@@ -16,7 +16,7 @@ export interface TextProps {
   children?: string | undefined | React.ReactNode;
   style?: StyleProp<TextStyle>;
   color?: string;
-  fontWeight?: 'bold' | 'medium' | 'regular';
+  fontWeight?: TextStyle['fontWeight'];
   fontSize?: number;
   textAlign?: TextStyle['textAlign'];
   textTransform?: TextStyle['textTransform'];
