@@ -3,7 +3,7 @@ import React from 'react'
 
 type Props = {}
 
-const Chat = (props: Props) => {
+const NewChat = (props: Props) => {
   return (
     <View>
       <Text>Chat</Text>
@@ -11,4 +11,4 @@ const Chat = (props: Props) => {
   )
 }
 
-export default Chat
+export default NewChat

@@ -6,9 +6,8 @@ import { Drawer } from 'expo-router/drawer';
 import { Link, useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { SW } from '@constants/utilts';
-import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import * as ContextMenu from 'zeego/context-menu';
 
 type Props = {};
 
@@ -69,19 +68,20 @@ const DrawerLayout = (props: Props) => {
         drawerItemStyle: { borderRadius: 12 },
         drawerLabelStyle: { marginLeft: -20 },
         drawerStyle: { width: SW * 0.86 },
+        drawerType: 'slide',
       }}>
       <Drawer.Screen
-        name="chat"
+        name="(chat)/index"
         getId={() => Math.random().toString()}
         options={{
-          title: 'ChatGPT',
+          title: 'Ask Muze',
           drawerIcon: () => (
             <View style={[styles.item, { backgroundColor: COLORS.light }]}>
               <Image source={require('@assets/images/logo.png')} style={styles.btnImage} />
             </View>
           ),
           headerRight: () => (
-            <Link href={'/(protected)/(drawer)/chat'} push asChild>
+            <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
               <TouchableOpacity>
                 <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
               </TouchableOpacity>
@@ -89,21 +89,21 @@ const DrawerLayout = (props: Props) => {
           ),
         }}
       />
-      <Drawer.Screen
-        name="[id]"
+      {/* <Drawer.Screen
+        name="(chat)/[id]"
         options={{
           drawerItemStyle: {
             display: 'none',
           },
           headerRight: () => (
-            <Link href={'/(protected)/(drawer)/chat'} push asChild>
+            <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
               <TouchableOpacity>
                 <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
               </TouchableOpacity>
             </Link>
           ),
         }}
-      />
+      /> */}
       {/* <Drawer.Screen
         name="dalle"
         options={{
@@ -129,7 +129,7 @@ const DrawerLayout = (props: Props) => {
       <Drawer.Screen
         name="explore"
         options={{
-          title: 'Explore GPTs',
+          title: 'Explore More',
           drawerIcon: () => (
             <View
               style={[
@@ -155,9 +155,9 @@ export default DrawerLayout;
 
 const styles = StyleSheet.create({
   searchSection: {
-    marginHorizontal: 16,
-    borderRadius: 10,
-    height: 34,
+    marginHorizontal: 10,
+    borderRadius: 12,
+    height: 45,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     alignItems: 'center',
     color: '#424242',
+    fontSize: 14,
   },
   footer: {
     flexDirection: 'row',
