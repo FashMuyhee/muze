@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "crypto.app"
-               BlueprintName = "crypto"
-               ReferencedContainer = "container:crypto.xcodeproj">
+               BuildableName = "muze.app"
+               BlueprintName = "muze"
+               ReferencedContainer = "container:muze.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "cryptoTests.xctest"
-               BlueprintName = "cryptoTests"
-               ReferencedContainer = "container:crypto.xcodeproj">
+               BuildableName = "muzeTests.xctest"
+               BlueprintName = "muzeTests"
+               ReferencedContainer = "container:muze.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "crypto.app"
-            BlueprintName = "crypto"
-            ReferencedContainer = "container:crypto.xcodeproj">
+            BuildableName = "muze.app"
+            BlueprintName = "muze"
+            ReferencedContainer = "container:muze.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "crypto.app"
-            BlueprintName = "crypto"
-            ReferencedContainer = "container:crypto.xcodeproj">
+            BuildableName = "muze.app"
+            BlueprintName = "muze"
+            ReferencedContainer = "container:muze.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -26,8 +26,6 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="myapp"/>
-        <data android:scheme="com.fashmuyhee.crypto"/>
         <data android:scheme="muze"/>
         <data android:scheme="com.fashmuyhee.muze"/>
         <data android:scheme="exp+muze"/>
