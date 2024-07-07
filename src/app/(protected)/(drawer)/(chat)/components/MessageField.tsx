@@ -107,9 +107,6 @@ const styles = StyleSheet.create({
   blurContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
   },
   fieldRow: {
     alignItems: 'center',
