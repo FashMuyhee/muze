@@ -13,7 +13,7 @@ type MessageField = {
 
 const ATouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
-const MessageField = (props: MessageField) => {
+export const MessageField = (props: MessageField) => {
   const [query, setQuery] = React.useState('');
   const isExpanded = useSharedValue(0);
   const { bottom } = useSafeAreaInsets();
@@ -100,8 +100,6 @@ const MessageField = (props: MessageField) => {
     </BlurView>
   );
 };
-
-export default MessageField;
 
 const styles = StyleSheet.create({
   blurContainer: {

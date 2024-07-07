@@ -14,7 +14,7 @@ type SuggestionProps = {
   suggestion: Suggestion;
   onSuggestionPress: (s: string) => void;
 };
-const SuggestedQuery = (props: Props) => {
+export const SuggestedQuery = (props: Props) => {
   const suggestions = useRandomSuggestions();
 
   const Suggestion = ({ onSuggestionPress, suggestion }: SuggestionProps) => {
@@ -42,7 +42,6 @@ const SuggestedQuery = (props: Props) => {
   );
 };
 
-export default SuggestedQuery;
 const styles = StyleSheet.create({
   suggestion: {
     elevation: 3,
