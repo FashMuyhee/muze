@@ -6,31 +6,44 @@ type Params = {
   placement: HorizontalPlacement;
   targetXPosition: number;
   objectWidth: number;
-  targetW?: number;
+  targetW: number;
 };
 
 export const useHorizontalPlacement = ({ placement, targetXPosition, objectWidth, targetW }: Params): HorizontalPlacement => {
+
   const measure = () => {
-    const x = objectWidth + targetXPosition;
+    const remRightScreen = SCREEN_WIDTH - targetXPosition;
+    const remLeftScreen = SCREEN_WIDTH - remRightScreen;
 
     // check for non centered content
     if (placement != HorizontalPlacement.CENTER) {
+      // for content flowing to left
       if (placement == HorizontalPlacement.LEFT) {
-        if (objectWidth > targetXPosition) {
+        // if both left and right is small
+        if (objectWidth > remLeftScreen && objectWidth > remRightScreen) {
+          return HorizontalPlacement.CENTER;
+        }
+        // if no available space to the left
+        if (targetW + remLeftScreen < objectWidth) {
           return HorizontalPlacement.RIGHT;
         }
+
         return placement;
       }
 
-      if (x < SCREEN_WIDTH) return placement;
-      return HorizontalPlacement.LEFT;
+      // for content flowing to right
+      if (placement == HorizontalPlacement.RIGHT) {
+        // if both left and right is small
+        if (objectWidth > remLeftScreen && objectWidth > remRightScreen) {
+          return HorizontalPlacement.CENTER;
+        }
+        // if no available space to the right
+        if (targetW + remRightScreen < objectWidth) {
+          return HorizontalPlacement.LEFT;
+        }
+        return placement;
+      }
     }
-
-    // check if no enough space towards the left
-    if (objectWidth * 0.5 > targetXPosition) return HorizontalPlacement.RIGHT;
-    // check if no enough space towards the right
-    const remRightScreen = SCREEN_WIDTH - targetXPosition;
-    if (remRightScreen < objectWidth * 0.5) return HorizontalPlacement.LEFT;
 
     return placement;
   };

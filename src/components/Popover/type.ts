@@ -41,7 +41,7 @@ export interface MenuItemProps {
   iconPlacement?: 'left' | 'right';
   labelTextStyle?: StyleProp<TextStyle>;
 }
-export interface DropdownMenuProps extends Omit<BaseProps, 'placement'>, Omit<MenuItemProps, 'item' | 'hasDivider'> {
+export interface DropdownMenuProps extends BaseProps, Omit<MenuItemProps, 'item' | 'hasDivider'> {
   menuItems: MenuItem[];
   backgroundColor?: string;
   borderRadius?: number;

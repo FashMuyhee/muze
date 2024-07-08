@@ -40,7 +40,13 @@ const PopoverBaseModal = ({
     objectHeight: layout.height,
     targetH: targetHeight,
   });
-  const _horizontalPlacement = useHorizontalPlacement({ placement: horizontalPlacement, objectWidth: layout.width, targetXPosition: pageX });
+  const _horizontalPlacement = useHorizontalPlacement({
+    placement: horizontalPlacement,
+    objectWidth: layout.width,
+    targetXPosition: pageX,
+    targetW: targetWidth,
+  });
+  console.log('🚀 ~ _horizontalPlacement:', _horizontalPlacement);
 
   /**
    * style variable for vertical placement

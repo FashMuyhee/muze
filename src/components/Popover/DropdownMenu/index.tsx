@@ -13,6 +13,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   dividerColor = '#8a8b8e',
   iconPlacement,
   labelTextStyle,
+  placement = [VerticalPlacement.BELOW, HorizontalPlacement.LEFT],
 }) => {
   const ref = React.useRef<PopoverBaseRef>(null);
 
@@ -45,7 +46,5 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
       </View>
     );
   };
-  return (
-    <PopoverBase ref={ref} popoverComponent={renderMenuItems()} placement={[VerticalPlacement.BELOW, HorizontalPlacement.LEFT]} trigger={trigger} />
-  );
+  return <PopoverBase ref={ref} popoverComponent={renderMenuItems()} placement={placement} trigger={trigger} />;
 };
