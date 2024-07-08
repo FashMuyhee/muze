@@ -1,11 +1,13 @@
 // import { copyImageToClipboard, downloadAndSaveImage, shareImage } from '@/utils/Image';
 import { COLORS } from '@constants';
+import { Content } from '@google/generative-ai';
 import React from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import TypingBubble from './TypingIndicator';
 
 export enum Role {
   User = 'user',
-  Bot = 'bot',
+  Bot = 'model',
 }
 
 export interface Message {
@@ -20,11 +22,12 @@ export interface Chat {
   title: string;
 }
 
-interface ChatBubbleProps extends Message {
-  loading?: boolean;
+interface ChatBubbleProps extends Content {
+  // loading?: boolean;
 }
 
-const ChatBubbleBase = ({ content, role, imageUrl, prompt, loading }: ChatBubbleProps) => {
+const ChatBubbleBase = ({ parts, role }: ChatBubbleProps) => {
+  const { text: content } = parts[0];
   // const contextItems = [
   //   { title: 'Copy', systemIcon: 'doc.on.doc', action: () => copyImageToClipboard(imageUrl!) },
   //   {
@@ -36,6 +39,7 @@ const ChatBubbleBase = ({ content, role, imageUrl, prompt, loading }: ChatBubble
   // ];
 
   const isUser = role === Role.User;
+  const loading = content == '';
 
   const _renderUser = () => {
     return role === Role.Bot ? (
@@ -61,7 +65,6 @@ const ChatBubbleBase = ({ content, role, imageUrl, prompt, loading }: ChatBubble
           alignSelf: isUser ? 'flex-end' : 'flex-start',
           flexDirection: isUser ? 'row-reverse' : 'row',
           width: isUser ? '70%' : '100%',
-          minWidth: '20%',
         },
       ]}>
       {_renderUser()}
@@ -71,21 +74,15 @@ const ChatBubbleBase = ({ content, role, imageUrl, prompt, loading }: ChatBubble
           {
             borderBottomLeftRadius: isUser ? 15 : 0,
             borderBottomRightRadius: isUser ? 0 : 15,
-            backgroundColor: isUser ? `${COLORS.primary}1a` : COLORS.input,
+            backgroundColor: isUser ? `${COLORS.primary}` : COLORS.input,
           },
         ]}>
-        {loading ? (
-          <View style={styles.loading}>
-            <ActivityIndicator color={COLORS.primary} size="small" />
-          </View>
-        ) : (
-          _renderContent()
-        )}
+        {loading ? <TypingBubble /> : _renderContent()}
       </View>
     </View>
   );
 };
-export const ChatBubble = React.memo(ChatBubbleBase);
+export const ChatBubble = ChatBubbleBase;
 
 const styles = StyleSheet.create({
   row: {
@@ -97,8 +94,9 @@ const styles = StyleSheet.create({
   },
   content: {
     borderRadius: 15,
-    flex: 1,
     padding: 10,
+    maxWidth: '80%',
+    minWidth: '20%',
   },
   btnImage: {
     margin: 6,
