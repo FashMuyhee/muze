@@ -4,6 +4,7 @@ import { Content } from '@google/generative-ai';
 import React from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import TypingBubble from './TypingIndicator';
+import FormattedText from './FormattedText';
 
 export enum Role {
   User = 'user',
@@ -50,11 +51,7 @@ const ChatBubbleBase = ({ parts, role }: ChatBubbleProps) => {
   };
 
   const _renderContent = () => {
-    return (
-      <Text selectable aria-selected selectionColor={COLORS.primary} style={styles.text}>
-        {content}
-      </Text>
-    );
+    return <FormattedText text={content as string} />;
   };
 
   return (
@@ -88,7 +85,7 @@ const styles = StyleSheet.create({
   row: {
     alignItems: 'flex-end',
     paddingHorizontal: 14,
-    gap: 14,
+    columnGap: 5,
     marginVertical: 10,
     flexDirection: 'row',
   },
