@@ -28,7 +28,7 @@ const NewChat = (props: Props) => {
       <FlashList
         ref={flashListRef}
         data={response}
-        renderItem={({ item, index }) => <ChatBubble {...item} canRegenerate onRegenerate={onRegenerate} />}
+        renderItem={({ item, index }) => <ChatBubble {...item} canRegenerate={index == response.length - 1} onRegenerate={onRegenerate} />}
         estimatedItemSize={400}
         extraData={response}
         contentContainerStyle={{ paddingTop: 30, paddingBottom: 150, paddingHorizontal: 10 }}

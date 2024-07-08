@@ -5,17 +5,17 @@ import { View, StyleSheet, Image } from 'react-native';
 import TypingBubble from './TypingIndicator';
 import FormattedText from './FormattedText';
 import { DropdownMenu, HorizontalPlacement, VerticalPlacement } from '@components/Popover';
-import { Ionicons } from '@expo/vector-icons';
 import { Role } from '@hook';
 import * as Clipboard from 'expo-clipboard';
 import Snackbar from 'react-native-snackbar';
+import { modelMenu, canRegenerateMenu, userMenu } from './dropmenus';
 
 interface ChatBubbleProps extends Content {
   canRegenerate: boolean;
   onRegenerate: () => void;
 }
 
-const ChatBubbleBase = ({ parts, role, onRegenerate }: ChatBubbleProps) => {
+const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate }: ChatBubbleProps) => {
   const { text: content } = parts[0];
   const isUser = role === Role.User;
   const loading = content == '';
@@ -23,6 +23,16 @@ const ChatBubbleBase = ({ parts, role, onRegenerate }: ChatBubbleProps) => {
   const onCopyToClipboard = async () => {
     await Clipboard.setStringAsync(content ?? '');
     Snackbar.show({ text: 'Copied' });
+  };
+
+  const _renderDropdown = () => {
+    if (role == Role.Bot) {
+      if (canRegenerate) {
+        return canRegenerateMenu(onCopyToClipboard, onRegenerate);
+      }
+      return modelMenu(onCopyToClipboard);
+    }
+    return userMenu(() => console.log('coming soon'));
   };
 
   const _renderUser = () => {
@@ -65,24 +75,7 @@ const ChatBubbleBase = ({ parts, role, onRegenerate }: ChatBubbleProps) => {
           </View>
         </View>
       }
-      menuItems={[
-        {
-          label: 'Copy',
-          icon: <Ionicons name="copy" />,
-          onPress: onCopyToClipboard,
-        },
-
-        {
-          label: 'Regenerate',
-          icon: <Ionicons name="reload" />,
-          onPress: () => onRegenerate(),
-        },
-        {
-          label: 'Share',
-          icon: <Ionicons name="share-social" />,
-          onPress: () => {},
-        },
-      ]}
+      menuItems={_renderDropdown()}
     />
   );
 };
