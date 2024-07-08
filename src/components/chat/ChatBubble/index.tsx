@@ -1,4 +1,3 @@
-// import { copyImageToClipboard, downloadAndSaveImage, shareImage } from '@/utils/Image';
 import { COLORS } from '@constants';
 import { Content } from '@google/generative-ai';
 import React from 'react';
@@ -8,25 +7,23 @@ import FormattedText from './FormattedText';
 import { DropdownMenu, HorizontalPlacement, VerticalPlacement } from '@components/Popover';
 import { Ionicons } from '@expo/vector-icons';
 import { Role } from '@hook';
+import * as Clipboard from 'expo-clipboard';
+import Snackbar from 'react-native-snackbar';
 
 interface ChatBubbleProps extends Content {
-  // loading?: boolean;
+  canRegenerate: boolean;
+  onRegenerate: () => void;
 }
 
-const ChatBubbleBase = ({ parts, role }: ChatBubbleProps) => {
+const ChatBubbleBase = ({ parts, role, onRegenerate }: ChatBubbleProps) => {
   const { text: content } = parts[0];
-  // const contextItems = [
-  //   { title: 'Copy', systemIcon: 'doc.on.doc', action: () => copyImageToClipboard(imageUrl!) },
-  //   {
-  //     title: 'Save to Photos',
-  //     systemIcon: 'arrow.down.to.line',
-  //     action: () => downloadAndSaveImage(imageUrl!),
-  //   },
-  //   { title: 'Share', systemIcon: 'square.and.arrow.up', action: () => shareImage(imageUrl!) },
-  // ];
-
   const isUser = role === Role.User;
   const loading = content == '';
+
+  const onCopyToClipboard = async () => {
+    await Clipboard.setStringAsync(content ?? '');
+    Snackbar.show({ text: 'Copied' });
+  };
 
   const _renderUser = () => {
     return role === Role.Bot ? (
@@ -72,9 +69,14 @@ const ChatBubbleBase = ({ parts, role }: ChatBubbleProps) => {
         {
           label: 'Copy',
           icon: <Ionicons name="copy" />,
-          onPress: () => {},
+          onPress: onCopyToClipboard,
         },
 
+        {
+          label: 'Regenerate',
+          icon: <Ionicons name="reload" />,
+          onPress: () => onRegenerate(),
+        },
         {
           label: 'Share',
           icon: <Ionicons name="share-social" />,

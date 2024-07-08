@@ -19,13 +19,17 @@ export enum Role {
   User = 'user',
   Bot = 'model',
 }
+
+/* Hook for using AskGemini
+ */
 export const useAskGemini = () => {
   const [messages, setMessages] = React.useState<Content[]>([]);
+  const [prompt, setPrompt] = React.useState('');
 
   const runGemini = async (q: string) => {
     // preset USER QUERY ON LIST
     setMessages([...messages, { role: Role.User, parts: [{ text: q }] }, { role: Role.Bot, parts: [{ text: '' }] }]);
-
+    setPrompt(q);
     const chatSession = model.startChat({
       generationConfig,
       history: [...messages],
@@ -42,5 +46,9 @@ export const useAskGemini = () => {
     }
   };
 
-  return { runGemini, response: messages };
+  const onRegenerate = async () => {
+    await runGemini(prompt);
+  };
+
+  return { runGemini, response: messages, onRegenerate };
 };

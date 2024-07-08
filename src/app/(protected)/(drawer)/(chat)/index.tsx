@@ -11,7 +11,7 @@ type Props = {};
 const NewChat = (props: Props) => {
   const flashListRef = React.useRef<FlashList<Content>>(null);
   const [height, setHeight] = useState(0);
-  const { response, runGemini } = useAskGemini();
+  const { response, runGemini, onRegenerate } = useAskGemini();
 
   const onSubmitQuery = async (q: string) => {
     // SEND DATA TO OPEN AI
@@ -28,7 +28,7 @@ const NewChat = (props: Props) => {
       <FlashList
         ref={flashListRef}
         data={response}
-        renderItem={({ item }) => <ChatBubble {...item} />}
+        renderItem={({ item, index }) => <ChatBubble {...item} canRegenerate onRegenerate={onRegenerate} />}
         estimatedItemSize={400}
         extraData={response}
         contentContainerStyle={{ paddingTop: 30, paddingBottom: 150, paddingHorizontal: 10 }}

@@ -3,7 +3,7 @@ import React from 'react';
 import { Suggestion, useRandomSuggestions } from '@hook';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SW } from '@constants/utilts';
-import { Text } from '@components';
+import { Text } from '@components/commons';
 
 type Props = {
   onSuggestionPress: (s: string) => void;

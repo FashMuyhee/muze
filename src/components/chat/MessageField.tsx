@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: COLORS.greyLight,
     backgroundColor: COLORS.light,
+    fontSize: 13,
   },
   roundBtn: {
     width: 35,

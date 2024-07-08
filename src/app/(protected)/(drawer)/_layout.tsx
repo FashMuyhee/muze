@@ -8,6 +8,7 @@ import { DrawerActions } from '@react-navigation/native';
 import { SW } from '@constants/utilts';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { DropdownMenu } from '@components';
 
 type Props = {};
 
@@ -81,11 +82,27 @@ const DrawerLayout = (props: Props) => {
             </View>
           ),
           headerRight: () => (
-            <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
-              <TouchableOpacity>
-                <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
-              </TouchableOpacity>
-            </Link>
+            <DropdownMenu
+              // placement={[VerticalPlacement.BELOW, HorizontalPlacement.RIGHT]}
+              trigger={
+                // <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
+                    <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
+                // </Link>
+              }
+              menuItems={[
+                {
+                  label: 'Copy',
+                  icon: <Ionicons name="copy" />,
+                  onPress: () => {},
+                },
+
+                {
+                  label: 'Share',
+                  icon: <Ionicons name="share-social" />,
+                  onPress: () => {},
+                },
+              ]}
+            />
           ),
         }}
       />
