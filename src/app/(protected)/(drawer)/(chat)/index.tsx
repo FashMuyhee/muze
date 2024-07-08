@@ -1,6 +1,6 @@
 import { View, KeyboardAvoidingView, Image, StyleSheet, LayoutChangeEvent } from 'react-native';
 import React, { useState } from 'react';
-import { ChatBubble, MessageField, SuggestedQuery } from '@components/chat';
+import { ChatBubble, MessageField, SuggestedQuery } from '@components';
 import { COLORS } from '@constants';
 import { FlashList } from '@shopify/flash-list';
 import { Content } from '@google/generative-ai';
