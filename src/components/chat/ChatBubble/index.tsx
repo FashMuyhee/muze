@@ -2,26 +2,14 @@
 import { COLORS } from '@constants';
 import { Content } from '@google/generative-ai';
 import React from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import TypingBubble from './TypingIndicator';
 import FormattedText from './FormattedText';
+import { DropdownMenu } from '@components/Popover';
+import { Ionicons } from '@expo/vector-icons';
+import { Role } from '@hook';
 
-export enum Role {
-  User = 'user',
-  Bot = 'model',
-}
 
-export interface Message {
-  role: Role;
-  content: string;
-  imageUrl?: string;
-  prompt?: string;
-}
-
-export interface Chat {
-  id: number;
-  title: string;
-}
 
 interface ChatBubbleProps extends Content {
   // loading?: boolean;
@@ -55,28 +43,45 @@ const ChatBubbleBase = ({ parts, role }: ChatBubbleProps) => {
   };
 
   return (
-    <View
-      style={[
-        styles.row,
+    <DropdownMenu
+      trigger={
+        <View
+          style={[
+            styles.row,
+            {
+              alignSelf: isUser ? 'flex-end' : 'flex-start',
+              flexDirection: isUser ? 'row-reverse' : 'row',
+              width: isUser ? '70%' : '100%',
+            },
+          ]}>
+          {_renderUser()}
+          <View
+            style={[
+              styles.content,
+              {
+                borderBottomLeftRadius: isUser ? 15 : 0,
+                borderBottomRightRadius: isUser ? 0 : 15,
+                backgroundColor: isUser ? `${COLORS.primary}` : COLORS.input,
+              },
+            ]}>
+            {loading ? <TypingBubble /> : _renderContent()}
+          </View>
+        </View>
+      }
+      menuItems={[
         {
-          alignSelf: isUser ? 'flex-end' : 'flex-start',
-          flexDirection: isUser ? 'row-reverse' : 'row',
-          width: isUser ? '70%' : '100%',
+          label: 'Copy',
+          icon: <Ionicons name="copy" />,
+          onPress: () => {},
         },
-      ]}>
-      {_renderUser()}
-      <View
-        style={[
-          styles.content,
-          {
-            borderBottomLeftRadius: isUser ? 15 : 0,
-            borderBottomRightRadius: isUser ? 0 : 15,
-            backgroundColor: isUser ? `${COLORS.primary}` : COLORS.input,
-          },
-        ]}>
-        {loading ? <TypingBubble /> : _renderContent()}
-      </View>
-    </View>
+
+        {
+          label: 'Share',
+          icon: <Ionicons name="share-social" />,
+          onPress: () => {},
+        },
+      ]}
+    />
   );
 };
 export const ChatBubble = ChatBubbleBase;

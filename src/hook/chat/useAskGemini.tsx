@@ -1,6 +1,5 @@
 import React from 'react';
 import { Content, GoogleGenerativeAI } from '@google/generative-ai';
-import { Role } from '../components';
 
 const apiKey = process.env.EXPO_PUBLIC_GEMINI_KEY;
 const genAI = new GoogleGenerativeAI(apiKey ?? '');
@@ -16,6 +15,10 @@ const generationConfig = {
   responseMimeType: 'text/plain',
 };
 
+export enum Role {
+  User = 'user',
+  Bot = 'model',
+}
 export const useAskGemini = () => {
   const [messages, setMessages] = React.useState<Content[]>([]);
 

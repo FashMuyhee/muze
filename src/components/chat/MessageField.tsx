@@ -89,7 +89,7 @@ export const MessageField = (props: MessageField) => {
         />
         {query.length > 0 ? (
           <TouchableOpacity onPress={onSend}>
-            <FontAwesome name="send" size={24} color={COLORS.grey} />
+            <FontAwesome name="send" size={20} color={COLORS.grey} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity>

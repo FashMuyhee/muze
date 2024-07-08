@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import React from 'react';
-import { AnimatedIntro, IntroBottomSheet } from './components';
+import { AnimatedIntro, IntroBottomSheet } from '@components/intro';
 
 type Props = {};
 

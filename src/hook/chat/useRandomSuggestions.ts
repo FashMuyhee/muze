@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Category, Suggestion, suggestions } from './suggestedquery';
 
-const useRandomSuggestions = (): Suggestion[] => {
+export const useRandomSuggestions = (): Suggestion[] => {
   const [randomSuggestions, setRandomSuggestions] = useState<Suggestion[]>([]);
 
   useEffect(() => {
@@ -31,5 +31,3 @@ const useRandomSuggestions = (): Suggestion[] => {
 
   return randomSuggestions;
 };
-
-export default useRandomSuggestions;

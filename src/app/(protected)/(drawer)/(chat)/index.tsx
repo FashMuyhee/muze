@@ -1,10 +1,10 @@
 import { View, KeyboardAvoidingView, Image, StyleSheet, LayoutChangeEvent } from 'react-native';
 import React, { useState } from 'react';
-import { ChatBubble, MessageField, Role, SuggestedQuery } from './components';
+import { ChatBubble, MessageField, SuggestedQuery } from '@components/chat';
 import { COLORS } from '@constants';
 import { FlashList } from '@shopify/flash-list';
 import { Content } from '@google/generative-ai';
-import { useAskGemini } from './hook';
+import { useAskGemini } from '@hook';
 
 type Props = {};
 
