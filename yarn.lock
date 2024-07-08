@@ -1435,6 +1435,11 @@
   resolved "https://registry.yarnpkg.com/@formkit/auto-animate/-/auto-animate-0.8.2.tgz#24a56e816159fd5585405dcee6bb992f81c27585"
   integrity sha512-SwPWfeRa5veb1hOIBMdzI+73te5puUBHmqqaF1Bu7FjvxlYSz/kJcZKSa9Cg60zL0uRNeJL2SbRxV6Jp6Q1nFQ==
 
+"@google/generative-ai@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.14.1.tgz#a9dcdf0b929fb0fa8c072007d6461c1c3cfe1175"
+  integrity sha512-pevEyZCb0Oc+dYNlSberW8oZBm4ofeTD5wN01TowQMhTwdAbGAnJMtQzoklh6Blq2AKsx8Ox6FWa44KioZLZiA==
+
 "@graphql-typed-document-node/core@^3.1.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
@@ -7352,11 +7357,6 @@ react-native-helmet-async@2.0.4:
     invariant "^2.2.4"
     react-fast-compare "^3.2.2"
     shallowequal "^1.1.0"
-
-react-native-openai@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/react-native-openai/-/react-native-openai-0.6.1.tgz#336724b39ce13a94be6a2a7eb9a3eb8d8c03fc63"
-  integrity sha512-KG9exGI3cKl8BoNJByvac8d/INa8hfXGtmS8ChSU9QAkn95+hks3ZlxyWbaba47WoEbsewo/1qpUbRI/0sQDbA==
 
 react-native-reanimated@~3.10.1:
   version "3.10.1"
