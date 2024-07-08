@@ -7,13 +7,13 @@ import MenuItem from './MenuItem';
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   menuItems,
-  trigger,
   backgroundColor = '#fafafa',
   borderRadius = BORDER_RADIUS,
   dividerColor = '#8a8b8e',
   iconPlacement,
   labelTextStyle,
   placement = [VerticalPlacement.BELOW, HorizontalPlacement.LEFT],
+  ...rest
 }) => {
   const ref = React.useRef<PopoverBaseRef>(null);
 
@@ -46,5 +46,5 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
       </View>
     );
   };
-  return <PopoverBase ref={ref} popoverComponent={renderMenuItems()} placement={placement} trigger={trigger} />;
+  return <PopoverBase ref={ref} popoverComponent={renderMenuItems()} placement={placement} {...rest} />;
 };

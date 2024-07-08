@@ -11,7 +11,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { EXTRA_SPACING, flipPlacement, SCREEN_HEIGHT, SCREEN_WIDTH } from './util';
+import { flipPlacement, SCREEN_WIDTH } from './util';
 import { useVerticalPlacement, useGetVerticalPosition, useHorizontalPlacement } from './hooks';
 
 const PopoverBaseModal = ({
@@ -46,7 +46,6 @@ const PopoverBaseModal = ({
     targetXPosition: pageX,
     targetW: targetWidth,
   });
-  console.log('🚀 ~ _horizontalPlacement:', _horizontalPlacement);
 
   /**
    * style variable for vertical placement

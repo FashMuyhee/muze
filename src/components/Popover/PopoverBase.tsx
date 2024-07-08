@@ -4,7 +4,7 @@ import { PopoverPosition, PopoverBaseProps, PopoverBaseRef } from './type';
 import PopoverBaseModal from './PopoverBaseModal';
 
 const PopoverBase: React.ForwardRefRenderFunction<PopoverBaseRef, PopoverBaseProps> = (props, ref) => {
-  const { trigger, ...rest } = props;
+  const { trigger, triggerBy = 'touchPress', ...rest } = props;
   const [isVisible, setIsVisible] = React.useState(false);
   const [popoverPosition, setPopoverPosition] = React.useState<PopoverPosition>({ pageY: 0, targetHeight: 0, pageX: 0, targetWidth: 0 });
   const dropdownRef = React.useRef<TouchableOpacity>(null);
@@ -30,7 +30,20 @@ const PopoverBase: React.ForwardRefRenderFunction<PopoverBaseRef, PopoverBasePro
   return (
     <View>
       {/* TRIGGER COMPONENT */}
-      <TouchableOpacity ref={dropdownRef} activeOpacity={0.7} style={styles.trigger} onPress={handleToggleDropdown}>
+      <TouchableOpacity
+        ref={dropdownRef}
+        activeOpacity={0.7}
+        style={styles.trigger}
+        onLongPress={() => {
+          if (triggerBy === 'longPress') {
+            handleToggleDropdown();
+          }
+        }}
+        onPress={() => {
+          if (triggerBy === 'touchPress') {
+            handleToggleDropdown();
+          }
+        }}>
         {trigger}
       </TouchableOpacity>
       {/* POPOVER COMPONENT */}

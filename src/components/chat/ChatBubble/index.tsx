@@ -2,14 +2,12 @@
 import { COLORS } from '@constants';
 import { Content } from '@google/generative-ai';
 import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import TypingBubble from './TypingIndicator';
 import FormattedText from './FormattedText';
-import { DropdownMenu } from '@components/Popover';
+import { DropdownMenu, HorizontalPlacement, VerticalPlacement } from '@components/Popover';
 import { Ionicons } from '@expo/vector-icons';
 import { Role } from '@hook';
-
-
 
 interface ChatBubbleProps extends Content {
   // loading?: boolean;
@@ -44,6 +42,8 @@ const ChatBubbleBase = ({ parts, role }: ChatBubbleProps) => {
 
   return (
     <DropdownMenu
+      triggerBy="longPress"
+      placement={[VerticalPlacement.BELOW, isUser ? HorizontalPlacement.LEFT : HorizontalPlacement.RIGHT]}
       trigger={
         <View
           style={[

@@ -4,6 +4,7 @@ import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 export interface BaseProps {
   placement?: [VerticalPlacement, HorizontalPlacement];
   trigger: React.ReactNode;
+  triggerBy?: 'longPress' | 'touchPress';
 }
 export interface PopoverBaseProps extends BaseProps {
   popoverComponent: React.ReactNode;
@@ -12,7 +13,7 @@ export interface PopoverBaseProps extends BaseProps {
 export interface PopoverBaseRef {
   onClose: () => void;
 }
-export interface PopoverBaseModalProps extends Omit<BaseProps, 'trigger'> {
+export interface PopoverBaseModalProps extends Omit<BaseProps, 'trigger' | 'triggerBy'> {
   position: PopoverPosition;
   onClose: () => void;
   isVisible: boolean;
