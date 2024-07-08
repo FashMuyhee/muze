@@ -26,13 +26,24 @@ export const useAskGemini = () => {
   const [messages, setMessages] = React.useState<Content[]>([]);
   const [prompt, setPrompt] = React.useState('');
 
+  function removeLastTwoElements(q: string): Content[] {
+    const newMessageResponse = messages;
+    if (newMessageResponse.length < 2) {
+      return [];
+    }
+    // Use splice to remove the last two elements
+    newMessageResponse.splice(-2, 2);
+    return newMessageResponse;
+  }
+
   const runGemini = async (q: string) => {
     // preset USER QUERY ON LIST
-    setMessages([...messages, { role: Role.User, parts: [{ text: q }] }, { role: Role.Bot, parts: [{ text: '' }] }]);
+    const history = removeLastTwoElements(q);
+    setMessages([...history, { role: Role.User, parts: [{ text: q }] }, { role: Role.Bot, parts: [{ text: '' }] }]);
     setPrompt(q);
     const chatSession = model.startChat({
       generationConfig,
-      history: [...messages],
+      history: [...history],
     });
 
     const result = await chatSession.sendMessage(q);
