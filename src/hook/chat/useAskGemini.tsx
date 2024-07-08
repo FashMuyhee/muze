@@ -36,9 +36,9 @@ export const useAskGemini = () => {
     return newMessageResponse;
   }
 
-  const runGemini = async (q: string) => {
+  const runGemini = async (q: string, removeLast2: boolean = false) => {
     // preset USER QUERY ON LIST
-    const history = removeLastTwoElements(q);
+    const history = removeLast2 ? removeLastTwoElements(q) : messages;
     setMessages([...history, { role: Role.User, parts: [{ text: q }] }, { role: Role.Bot, parts: [{ text: '' }] }]);
     setPrompt(q);
     const chatSession = model.startChat({
@@ -58,7 +58,7 @@ export const useAskGemini = () => {
   };
 
   const onRegenerate = async () => {
-    await runGemini(prompt);
+    await runGemini(prompt, true);
   };
 
   return { runGemini, response: messages, onRegenerate };
