@@ -7,13 +7,17 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '@constants';
 import { FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
-type MessageField = {
+type MessageFieldProps = {
   onSend: (m: string) => void;
+};
+
+export type MessageFieldRef = {
+  onChange: (m: string) => void;
 };
 
 const ATouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
-export const MessageField = (props: MessageField) => {
+export const MessageField = React.forwardRef<MessageFieldRef, MessageFieldProps>((props, ref) => {
   const [query, setQuery] = React.useState('');
   const isExpanded = useSharedValue(0);
   const { bottom } = useSafeAreaInsets();
@@ -21,9 +25,16 @@ export const MessageField = (props: MessageField) => {
 
   const onChangeText = (text: string) => {
     onCollapseItems();
-
     setQuery(text);
   };
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      onChange: onChangeText,
+    }),
+    [],
+  );
 
   const onSend = () => {
     inputRef.current?.blur();
@@ -59,7 +70,7 @@ export const MessageField = (props: MessageField) => {
   });
 
   return (
-    <BlurView intensity={100}  tint="extraLight" style={[styles.blurContainer, { paddingBottom: IS_ANDROID ? 10 : bottom }]}>
+    <BlurView intensity={100} tint="extraLight" style={[styles.blurContainer, { paddingBottom: IS_ANDROID ? 10 : bottom }]}>
       <View style={[styles.fieldRow]}>
         <ATouchableOpacity onPress={onExpandItems} style={[styles.roundBtn, expandButtonStyle]}>
           <Ionicons name="add" size={24} color={COLORS.grey} />
@@ -93,14 +104,14 @@ export const MessageField = (props: MessageField) => {
             <FontAwesome name="send" size={20} color={COLORS.grey} />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => inputRef.current?.props?.onChangeText!('ppp')}>
             <FontAwesome5 name="headphones" size={24} color={COLORS.grey} />
           </TouchableOpacity>
         )}
       </View>
     </BlurView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   blurContainer: {

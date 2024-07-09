@@ -13,9 +13,11 @@ import { modelMenu, canRegenerateMenu, userMenu } from './dropmenus';
 interface ChatBubbleProps extends Content {
   canRegenerate: boolean;
   onRegenerate: () => void;
+  onEdit: (q: string) => void;
+  userCanEdit: boolean;
 }
 
-const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate }: ChatBubbleProps) => {
+const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate, onEdit, userCanEdit }: ChatBubbleProps) => {
   const { text: content } = parts[0];
   const isUser = role === Role.User;
   const loading = content == '';
@@ -26,13 +28,15 @@ const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate }: ChatBubble
   };
 
   const _renderDropdown = () => {
-    if (role == Role.Bot) {
-      if (canRegenerate) {
-        return canRegenerateMenu(onCopyToClipboard, onRegenerate);
+    if (isUser) {
+      if (userCanEdit) {
+        return userMenu(() => onEdit(content as string));
       }
-      return modelMenu(onCopyToClipboard);
     }
-    return userMenu(() => console.log('coming soon'));
+    if (canRegenerate) {
+      return canRegenerateMenu(onCopyToClipboard, onRegenerate);
+    }
+    return modelMenu(onCopyToClipboard);
   };
 
   const _renderUser = () => {

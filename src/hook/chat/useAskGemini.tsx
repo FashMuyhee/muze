@@ -57,8 +57,9 @@ export const useAskGemini = () => {
     }
   };
 
-  const onRegenerate = async () => {
-    await runGemini(prompt, true);
+  const onRegenerate = async (q?: string) => {
+    const query = q ? q : prompt;
+    await runGemini(query, true);
   };
 
   return { runGemini, response: messages, onRegenerate };
