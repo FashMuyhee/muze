@@ -26,6 +26,7 @@ export const MessageField = (props: MessageField) => {
   };
 
   const onSend = () => {
+    inputRef.current?.blur();
     props.onSend(query);
     setQuery('');
   };
@@ -58,7 +59,7 @@ export const MessageField = (props: MessageField) => {
   });
 
   return (
-    <BlurView intensity={100} tint="extraLight" style={[styles.blurContainer, { paddingBottom: IS_ANDROID ? 30 : bottom }]}>
+    <BlurView intensity={100}  tint="extraLight" style={[styles.blurContainer, { paddingBottom: IS_ANDROID ? 10 : bottom }]}>
       <View style={[styles.fieldRow]}>
         <ATouchableOpacity onPress={onExpandItems} style={[styles.roundBtn, expandButtonStyle]}>
           <Ionicons name="add" size={24} color={COLORS.grey} />
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 20,
+    borderRadius: 30,
     padding: 10,
     borderColor: COLORS.greyLight,
     backgroundColor: COLORS.light,

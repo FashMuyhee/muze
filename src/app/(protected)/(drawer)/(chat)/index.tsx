@@ -5,6 +5,7 @@ import { COLORS } from '@constants';
 import { FlashList } from '@shopify/flash-list';
 import { Content } from '@google/generative-ai';
 import { useAskGemini } from '@hook';
+import { IS_ANDROID } from '@constants/utilts';
 
 type Props = {};
 
@@ -39,7 +40,10 @@ const NewChat = (props: Props) => {
           </View>
         }
       />
-      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="position" style={{ position: 'absolute', width: '100%', bottom: 0 }}>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={70}
+        behavior={IS_ANDROID ? 'height' : 'position'}
+        style={{ position: 'absolute', width: '100%', bottom: 0 }}>
         {response.length == 0 && <SuggestedQuery onSuggestionPress={onSubmitQuery} />}
         <MessageField onSend={onSubmitQuery} />
       </KeyboardAvoidingView>

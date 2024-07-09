@@ -82,28 +82,13 @@ const DrawerLayout = (props: Props) => {
             </View>
           ),
           headerRight: () => (
-            <DropdownMenu
-              // placement={[VerticalPlacement.BELOW, HorizontalPlacement.RIGHT]}
-              trigger={
-                // <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
-                    <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
-                // </Link>
-              }
-              menuItems={[
-                {
-                  label: 'Copy',
-                  icon: <Ionicons name="copy" />,
-                  onPress: () => {},
-                },
-
-                {
-                  label: 'Share',
-                  icon: <Ionicons name="share-social" />,
-                  onPress: () => {},
-                },
-              ]}
-            />
+            <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
+              <TouchableOpacity>
+                <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
+              </TouchableOpacity>
+            </Link>
           ),
+          headerShadowVisible: true,
         }}
       />
       {/* <Drawer.Screen

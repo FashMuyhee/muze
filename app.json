@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
     "scheme": "muze",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark-mode",
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
