@@ -1,15 +1,12 @@
 import React from 'react';
 import * as Speech from 'expo-speech';
-import { parseContentToString } from '@components/chat/ChatBubble/FormattedText';
-
-type Props = {};
+import { parseContentToString } from '@constants/utilts';
 
 export const useTextToSpeech = () => {
   const [isSpeaking, setIsSpeaking] = React.useState(false);
   const [isPaused, setIsPaused] = React.useState(true);
 
   const speak = (text: string) => {
-    console.log(parseContentToString(text).join(' '));
     if (!isSpeaking && isPaused) {
       Speech.speak(parseContentToString(text).join(' '), {
         language: 'en',
