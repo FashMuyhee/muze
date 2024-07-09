@@ -1,14 +1,16 @@
 import { COLORS } from '@constants';
 import { Content } from '@google/generative-ai';
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
 import TypingBubble from './TypingIndicator';
 import FormattedText from './FormattedText';
 import { DropdownMenu, HorizontalPlacement, VerticalPlacement } from '@components/Popover';
-import { Role } from '@hook';
+import { Role, useTextToSpeech } from '@hook';
 import * as Clipboard from 'expo-clipboard';
 import Snackbar from 'react-native-snackbar';
 import { modelMenu, canRegenerateMenu, userMenu } from './dropmenus';
+import { Ionicons } from '@expo/vector-icons';
+import { IconButton } from '@components/commons';
 
 interface ChatBubbleProps extends Content {
   canRegenerate: boolean;
@@ -21,6 +23,8 @@ const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate, onEdit, user
   const { text: content } = parts[0];
   const isUser = role === Role.User;
   const loading = content == '';
+
+  const { speak, isPaused } = useTextToSpeech();
 
   const onCopyToClipboard = async () => {
     await Clipboard.setStringAsync(content ?? '');
@@ -77,6 +81,15 @@ const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate, onEdit, user
             ]}>
             {loading ? <TypingBubble /> : _renderContent()}
           </View>
+          {!isUser && !loading && (
+            <IconButton
+              onPress={() => speak(content ?? '')}
+              icon={<Ionicons name={isPaused ? 'play' : 'pause'} color={COLORS.light} />}
+              bg={COLORS.black}
+              rounded
+              size={30}
+            />
+          )}
         </View>
       }
       menuItems={_renderDropdown()}

@@ -6,6 +6,7 @@ import { FlashList } from '@shopify/flash-list';
 import { Content } from '@google/generative-ai';
 import { useAskGemini } from '@hook';
 import { IS_ANDROID } from '@constants/utilts';
+import Speech from 'expo-speech';
 
 type Props = {};
 
@@ -36,6 +37,7 @@ const NewChat = (props: Props) => {
     messageField.current?.onChange(text);
     setIsEditing(true);
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: '#fcfcfc' }} onLayout={onLayout}>
       <FlashList

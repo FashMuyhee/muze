@@ -104,7 +104,7 @@ export const MessageField = React.forwardRef<MessageFieldRef, MessageFieldProps>
             <FontAwesome name="send" size={20} color={COLORS.grey} />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={() => inputRef.current?.props?.onChangeText!('ppp')}>
+          <TouchableOpacity>
             <FontAwesome5 name="headphones" size={24} color={COLORS.grey} />
           </TouchableOpacity>
         )}
