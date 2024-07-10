@@ -5,7 +5,7 @@ import { TextFieldProps } from './types';
 import { StackView } from './Flex';
 import { Ionicons } from '@expo/vector-icons';
 
-const TextField = React.forwardRef<TextInput, TextFieldProps>(({ isPassword, ...props }: TextFieldProps, ref) => {
+export const TextField = React.forwardRef<TextInput, TextFieldProps>(({ isPassword, ...props }: TextFieldProps, ref) => {
   const [isConfiscate, setIsConfiscate] = React.useState(isPassword);
   const [isFocus, setIsFocus] = React.useState(false);
 
@@ -38,7 +38,6 @@ const TextField = React.forwardRef<TextInput, TextFieldProps>(({ isPassword, ...
   );
 });
 
-export default TextField;
 
 const styles = StyleSheet.create({
   container: {
