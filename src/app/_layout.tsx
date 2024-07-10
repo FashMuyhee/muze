@@ -53,7 +53,7 @@ const InitialLayout = () => {
     const inProtectedGroup = segments[0] === '(protected)';
 
     if (isSignedIn && !inProtectedGroup) {
-      router.replace('/(protected)');
+      router.replace('/0');
     } else if (!isSignedIn) {
       router.replace('/');
     }

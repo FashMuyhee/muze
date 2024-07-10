@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Content, GoogleGenerativeAI } from '@google/generative-ai';
+import { useSQLiteContext } from 'expo-sqlite';
+import { addChat, addMessage, deleteMessages, getMessages } from '@utils/Database';
 
 const apiKey = process.env.EXPO_PUBLIC_GEMINI_KEY;
 const genAI = new GoogleGenerativeAI(apiKey ?? '');
@@ -22,9 +24,12 @@ export enum Role {
 
 /* Hook for using AskGemini
  */
-export const useAskGemini = () => {
+export const useAskGemini = (chatId: number) => {
   const [messages, setMessages] = React.useState<Content[]>([]);
   const [prompt, setPrompt] = React.useState('');
+  const chatIdRef = useRef('');
+
+  const db = useSQLiteContext();
 
   function removeLastTwoElements(q: string): Content[] {
     const newMessageResponse = messages;
@@ -37,10 +42,17 @@ export const useAskGemini = () => {
   }
 
   const runGemini = async (q: string, removeLast2: boolean = false) => {
-    // preset USER QUERY ON LIST
+    if (messages.length == 0) {
+      const _result = await addChat(db, q);
+      const chatId = _result.lastInsertRowId.toString();
+      chatIdRef.current = chatId;
+    }
+    await addMessage(db, parseInt(chatIdRef.current), { parts: [{ text: q }], role: Role.User });
+    // PRESET USER QUERY ON LIST
     const history = removeLast2 ? removeLastTwoElements(q) : messages;
     setMessages([...history, { role: Role.User, parts: [{ text: q }] }, { role: Role.Bot, parts: [{ text: '' }] }]);
     setPrompt(q);
+    // CALL GEMINI
     const chatSession = model.startChat({
       generationConfig,
       history: [...history],
@@ -54,13 +66,25 @@ export const useAskGemini = () => {
         messages[messages.length - 1].parts[0].text += text;
         return [...messages];
       });
+      await addMessage(db, parseInt(chatIdRef.current), { parts: [{ text }], role: Role.Bot });
     }
   };
 
-  const onRegenerate = async (q?: string) => {
-    const query = q ? q : prompt;
-    await runGemini(query, true);
+  const onRegenerate = (q?: string) => {
+    deleteMessages(db, parseInt(chatIdRef.current)).then(async () => {
+      const query = q ? q : prompt;
+      await runGemini(query, true);
+    });
   };
+
+  React.useEffect(() => {
+    if (chatId > 0) {
+      getMessages(db, chatId).then((me) => {
+        setMessages(me);
+        chatIdRef.current = chatId.toString();
+      });
+    }
+  }, [chatId]);
 
   return { runGemini, response: messages, onRegenerate };
 };

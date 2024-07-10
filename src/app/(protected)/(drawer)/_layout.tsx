@@ -1,20 +1,75 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Pressable } from 'react-native';
-import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
 import { COLORS } from '@utils';
 import { FontAwesome6, Ionicons } from '@expo/vector-icons';
 import { Drawer } from 'expo-router/drawer';
 import { Link, useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { SW } from '@utils/helpers';
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, DrawerItemList, useDrawerStatus } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { DropdownMenu } from '@components';
+import { CenterView, DropdownMenu, StackView } from '@components';
+import { Chat, deleteChat, getChats } from '@utils/Database';
+import { useSQLiteContext } from 'expo-sqlite';
+import { chatHistoryMenus } from '@components/chat/ChatBubble/dropmenus';
 
 type Props = {};
 
 export const CustomDrawerContent = (props: any) => {
   const { bottom, top } = useSafeAreaInsets();
   const router = useRouter();
+  const isOpened = useDrawerStatus() == 'open';
+  const db = useSQLiteContext();
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [isLoadingChats, setIsLoadingChats] = useState(true);
+
+  const fetchChats = async () => {
+    try {
+      const chats = await getChats(db);
+      setChats(chats);
+      setIsLoadingChats(false);
+    } catch (error) {
+      setIsLoadingChats(false);
+    }
+  };
+
+  const onDeleteChat = async (id: number) => {
+    await deleteChat(db, id);
+  };
+
+  const renderChatHistory = () => {
+    if (isLoadingChats) {
+      return (
+        <StackView style={{ columnGap: 10, paddingHorizontal: 20, marginTop: 30 }}>
+          <ActivityIndicator size="small" color={COLORS.black} />
+          <Text>Loading History</Text>
+        </StackView>
+      );
+    }
+
+    return (
+      chats &&
+      chats.map((chat) => (
+        // <DropdownMenu
+        //   triggerBy="longPress"
+        //   key={chat.id}
+        //   menuItems={chatHistoryMenus(
+        //     () => console.log('editign'),
+        //     () => onDeleteChat(parseInt(chat.id)),
+        //   )}
+        //   trigger={<DrawerItem label={chat.title} onPress={() => router.push(`/(chat)/${chat.id}`)} inactiveTintColor="#000" />}
+        // />
+
+        <DrawerItem key={chat.id} label={chat.title} onPress={() => router.push(`/(chat)/${chat.id}`)} inactiveTintColor="#000" />
+      ))
+    );
+  };
+
+  React.useEffect(() => {
+    if (isOpened) {
+      fetchChats();
+    }
+  }, [isOpened]);
 
   return (
     <View style={{ flex: 1, marginTop: top }}>
@@ -27,6 +82,7 @@ export const CustomDrawerContent = (props: any) => {
 
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#fff', paddingTop: 0 }}>
         <DrawerItemList {...props} />
+        {renderChatHistory()}
       </DrawerContentScrollView>
 
       <View
@@ -72,7 +128,7 @@ const DrawerLayout = (props: Props) => {
         drawerType: 'slide',
       }}>
       <Drawer.Screen
-        name="(chat)/index"
+        name="(chat)/[id]"
         getId={() => Math.random().toString()}
         options={{
           title: 'Ask Muze',
@@ -82,7 +138,7 @@ const DrawerLayout = (props: Props) => {
             </View>
           ),
           headerRight: () => (
-            <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
+            <Link href={'/(chat)/'} push asChild>
               <TouchableOpacity>
                 <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
               </TouchableOpacity>
@@ -91,21 +147,7 @@ const DrawerLayout = (props: Props) => {
           headerShadowVisible: true,
         }}
       />
-      {/* <Drawer.Screen
-        name="(chat)/[id]"
-        options={{
-          drawerItemStyle: {
-            display: 'none',
-          },
-          headerRight: () => (
-            <Link href={'/(protected)/(drawer)/(chat)/index'} push asChild>
-              <TouchableOpacity>
-                <Ionicons name="create-outline" size={24} color={COLORS.grey} style={{ marginRight: 16 }} />
-              </TouchableOpacity>
-            </Link>
-          ),
-        }}
-      /> */}
+
       {/* <Drawer.Screen
         name="dalle"
         options={{

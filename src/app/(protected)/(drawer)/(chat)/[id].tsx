@@ -6,26 +6,29 @@ import { FlashList } from '@shopify/flash-list';
 import { Content } from '@google/generative-ai';
 import { useAskGemini } from '@hook';
 import { IS_ANDROID } from '@utils/helpers';
-import Speech from 'expo-speech';
+import { useLocalSearchParams } from 'expo-router';
 
-type Props = {};
-
-const NewChat = (props: Props) => {
+const NewChat = () => {
   const flashListRef = React.useRef<FlashList<Content>>(null);
   const messageField = React.useRef<MessageFieldRef>(null);
+  const listHeight = React.useRef(0);
+  const { id } = useLocalSearchParams<{ id: string }>();
 
   const [height, setHeight] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
-  const { response, runGemini, onRegenerate } = useAskGemini();
+  const { response, runGemini, onRegenerate } = useAskGemini(parseInt(id as string));
 
   const onSubmitQuery = async (q: string) => {
+    onScroll(50);
     if (isEditing) {
-      await onRegenerate(q);
+      onRegenerate(q);
       setIsEditing(false);
+      onScroll(50);
       return;
     }
     // SEND DATA TO OPEN AI
     await runGemini(q);
+    onScroll(1000);
   };
 
   const onLayout = (event: LayoutChangeEvent) => {
@@ -37,6 +40,21 @@ const NewChat = (props: Props) => {
     messageField.current?.onChange(text);
     setIsEditing(true);
   };
+
+  const onScroll = (extra: number = 0) => {
+    if (flashListRef.current) {
+      flashListRef.current?.scrollToIndex({
+        animated: true,
+        index: response.length + 1,
+        viewOffset: extra,
+        viewPosition: 0,
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    onScroll(100);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fcfcfc' }} onLayout={onLayout}>
@@ -52,6 +70,9 @@ const NewChat = (props: Props) => {
             onRegenerate={onRegenerate}
           />
         )}
+        onLayout={({ nativeEvent }) => {
+          listHeight.current = nativeEvent.layout.height;
+        }}
         estimatedItemSize={400}
         extraData={response}
         contentContainerStyle={{ paddingTop: 30, paddingBottom: 150, paddingHorizontal: 10 }}

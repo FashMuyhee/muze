@@ -263,6 +263,12 @@ PODS:
     - ExpoModulesCore
   - ExpoSpeech (12.0.2):
     - ExpoModulesCore
+  - ExpoSQLite (14.0.4):
+    - ExpoModulesCore
+    - "sqlite3 (~> 3.45.3+1)"
+    - "sqlite3/bytecodevtab (~> 3.45.3+1)"
+    - "sqlite3/fts (~> 3.45.3+1)"
+    - "sqlite3/fts5 (~> 3.45.3+1)"
   - ExpoSystemUI (3.0.7):
     - ExpoModulesCore
   - ExpoWebBrowser (13.0.3):
@@ -1525,6 +1531,15 @@ PODS:
   - RNSnackbar (2.6.2):
     - React-Core
   - SocketRocket (0.7.0)
+  - "sqlite3 (3.45.3+1)":
+    - "sqlite3/common (= 3.45.3+1)"
+  - "sqlite3/bytecodevtab (3.45.3+1)":
+    - sqlite3/common
+  - "sqlite3/common (3.45.3+1)"
+  - "sqlite3/fts (3.45.3+1)":
+    - sqlite3/common
+  - "sqlite3/fts5 (3.45.3+1)":
+    - sqlite3/common
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1551,6 +1566,7 @@ DEPENDENCIES:
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSecureStore (from `../node_modules/expo-secure-store/ios`)
   - ExpoSpeech (from `../node_modules/expo-speech/ios`)
+  - ExpoSQLite (from `../node_modules/expo-sqlite/ios`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
@@ -1619,6 +1635,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - SocketRocket
+    - sqlite3
 
 EXTERNAL SOURCES:
   boost:
@@ -1667,6 +1684,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-secure-store/ios"
   ExpoSpeech:
     :path: "../node_modules/expo-speech/ios"
+  ExpoSQLite:
+    :path: "../node_modules/expo-sqlite/ios"
   ExpoSystemUI:
     :path: "../node_modules/expo-system-ui/ios"
   ExpoWebBrowser:
@@ -1817,6 +1836,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: 30e1ed4659356cb9a84e0e5ddf1d090d735973c1
   ExpoSecureStore: 060cebcb956b80ddae09821610ac1aa9e1ac74cd
   ExpoSpeech: 258ea713923eb70ef63d3bdb14f47a462d0b6f0e
+  ExpoSQLite: ef3beaedbf5ea4573892f0099ef5514796db6066
   ExpoSystemUI: d4f065a016cae6721b324eb659cdee4d4cf0cb26
   ExpoWebBrowser: 7595ccac6938eb65b076385fd23d035db9ecdc8e
   EXSplashScreen: fbf0ec78e9cee911df188bf17b4fe51d15a84b87
@@ -1879,6 +1899,7 @@ SPEC CHECKSUMS:
   RNScreens: b32a9ff15bea7fcdbe5dff6477bc503f792b1208
   RNSnackbar: 3727b42bf6c4314a53c18185b5203e915a4ab020
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
+  sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
 
 PODFILE CHECKSUM: 3473c05d9544961489e3d21ef3950a3e2334b87a
