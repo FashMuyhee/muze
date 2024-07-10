@@ -1,4 +1,4 @@
-import { useSignIn, useSignUp, useOAuth, UseOAuthFlowParams } from '@clerk/clerk-expo';
+import { useSignIn, useSignUp, useOAuth, UseOAuthFlowParams, useUser } from '@clerk/clerk-expo';
 import React from 'react';
 import Snackbar from 'react-native-snackbar';
 
@@ -94,4 +94,48 @@ export const onSocialSignin = (social: UseOAuthFlowParams['strategy']) => {
   };
 
   return { isLoading: loading, submit };
+};
+
+export const onDeleteAccount = () => {
+  const { user } = useUser();
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const submit = async (email: string) => {
+    setIsLoading(true);
+    if (!isEmailValid(email)) {
+      Snackbar.show({
+        text: 'Invalid email address',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (email == user?.emailAddresses[0].emailAddress) {
+      try {
+        await user?.delete();
+        Snackbar.show({
+          text: 'Account deleted successfully',
+          duration: Snackbar.LENGTH_SHORT,
+        });
+        setIsLoading(false);
+      } catch (err) {
+        //@ts-ignore
+        const erMsg = err.errors[0]?.longMessage as string;
+        Snackbar.show({
+          text: erMsg ?? 'Failed to delete account',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        setIsLoading(false);
+      }
+    } else {
+      Snackbar.show({
+        text: 'Invalid email address',
+        duration: Snackbar.LENGTH_LONG,
+      });
+      setIsLoading(false);
+    }
+  };
+
+  return { isLoading, submit };
 };

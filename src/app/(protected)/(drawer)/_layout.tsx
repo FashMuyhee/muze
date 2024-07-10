@@ -23,7 +23,8 @@ import { DropdownMenu, IconButton, StackView, Text } from '@components';
 import { Chat, deleteChat, getChats, renameChat } from '@utils/Database';
 import { useSQLiteContext } from 'expo-sqlite';
 import { chatHistoryMenus } from '@components/chat/ChatBubble/dropmenus';
-import { useAuth } from '@clerk/clerk-expo';
+import { useAuth, useUser } from '@clerk/clerk-expo';
+import { SheetManager } from 'react-native-actions-sheet';
 
 type Props = {};
 
@@ -32,7 +33,8 @@ export const CustomDrawerContent = (props: any) => {
   const router = useRouter();
   const isOpened = useDrawerStatus() == 'open';
   const db = useSQLiteContext();
-  const { isSignedIn, signOut } = useAuth();
+  const { user } = useUser();
+  const { emailAddresses, firstName, lastName, imageUrl, } = user || {};
 
   // STATE
   const [chats, setChats] = useState<Chat[]>([]);
@@ -158,9 +160,14 @@ export const CustomDrawerContent = (props: any) => {
           backgroundColor: COLORS.light,
         }}>
         <Pressable style={styles.footer}>
-          <Image source={{ uri: 'https://galaxies.dev/img/meerkat_2.jpg' }} style={styles.avatar} />
-          <Text style={styles.userName}>Mika Meerkat</Text>
-          <IconButton onPress={signOut} icon={<MaterialIcons name="logout" size={24} color={COLORS.greyLight} />} />
+          <Image source={{ uri: imageUrl }} style={styles.avatar} />
+          <View>
+            <Text numberLines={1} fontSize={14} color={COLORS.black}>{`${firstName} ${lastName}`}</Text>
+            <Text numberLines={1} fontSize={13} color={COLORS.greyLight}>
+              {emailAddresses?.at(0)?.emailAddress}
+            </Text>
+          </View>
+          <IconButton onPress={() => SheetManager.show('profile')} icon={<MaterialIcons name="more-horiz" size={24} color={COLORS.greyLight} />} />
         </Pressable>
       </View>
     </View>
@@ -299,11 +306,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 10,
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: '600',
-    flex: 1,
   },
   item: {
     borderRadius: 15,
