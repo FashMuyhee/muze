@@ -1,4 +1,15 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+  TextInputSubmitEditingEventData,
+  NativeSyntheticEvent,
+  Keyboard,
+} from 'react-native';
 import React, { useState } from 'react';
 import { COLORS } from '@utils';
 import { FontAwesome6, Ionicons } from '@expo/vector-icons';
@@ -6,10 +17,10 @@ import { Drawer } from 'expo-router/drawer';
 import { Link, useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { SW } from '@utils/helpers';
-import { DrawerContentScrollView, DrawerItem, DrawerItemList, useDrawerStatus } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList, useDrawerStatus } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { CenterView, DropdownMenu, StackView } from '@components';
-import { Chat, deleteChat, getChats } from '@utils/Database';
+import { DropdownMenu, StackView, Text } from '@components';
+import { Chat, deleteChat, getChats, renameChat } from '@utils/Database';
 import { useSQLiteContext } from 'expo-sqlite';
 import { chatHistoryMenus } from '@components/chat/ChatBubble/dropmenus';
 
@@ -21,6 +32,11 @@ export const CustomDrawerContent = (props: any) => {
   const isOpened = useDrawerStatus() == 'open';
   const db = useSQLiteContext();
   const [chats, setChats] = useState<Chat[]>([]);
+  const [searchResult, setSearchResult] = useState<Chat[]>([]);
+  const [chatId, setChatId] = useState('');
+
+  const history = searchResult.length > 0 ? searchResult : chats;
+
   const [isLoadingChats, setIsLoadingChats] = useState(true);
 
   const fetchChats = async () => {
@@ -33,8 +49,21 @@ export const CustomDrawerContent = (props: any) => {
     }
   };
 
+  const onSearchChats = (q: string) => {
+    const result = chats.filter((chat) => chat.title.toLowerCase().includes(q.toLowerCase()));
+    setSearchResult(result);
+  };
+
+  const onRenameChat = async (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+    const { text } = e.nativeEvent;
+    await renameChat(db, parseInt(chatId), text);
+    setChatId('');
+    fetchChats();
+  };
+
   const onDeleteChat = async (id: number) => {
     await deleteChat(db, id);
+    fetchChats();
   };
 
   const renderChatHistory = () => {
@@ -48,22 +77,51 @@ export const CustomDrawerContent = (props: any) => {
     }
 
     return (
-      chats &&
-      chats.map((chat) => (
-        // <DropdownMenu
-        //   triggerBy="longPress"
-        //   key={chat.id}
-        //   menuItems={chatHistoryMenus(
-        //     () => console.log('editign'),
-        //     () => onDeleteChat(parseInt(chat.id)),
-        //   )}
-        //   trigger={<DrawerItem label={chat.title} onPress={() => router.push(`/(chat)/${chat.id}`)} inactiveTintColor="#000" />}
-        // />
-
-        <DrawerItem key={chat.id} label={chat.title} onPress={() => router.push(`/(chat)/${chat.id}`)} inactiveTintColor="#000" />
-      ))
+      history &&
+      history.map((chat) => {
+        const isFocused = chatId == chat.id;
+        return (
+          <DropdownMenu
+            triggerBy="longPress"
+            key={chat.id}
+            menuItems={chatHistoryMenus(
+              () => router.push(`/(chat)/${chat.id}`),
+              () => setChatId(chat.id),
+              () => onDeleteChat(parseInt(chat.id)),
+            )}
+            trigger={
+              <View style={styles.drawerItem}>
+                {isFocused ? (
+                  <TextInput
+                    returnKeyLabel="done"
+                    returnKeyType="done"
+                    defaultValue={chat.title}
+                    onSubmitEditing={onRenameChat}
+                    editable={isFocused}
+                    style={[styles.drawerItemTextinput]}
+                  />
+                ) : (
+                  <Text fontSize={13} color={COLORS.black} numberLines={1}>
+                    {chat.title}
+                  </Text>
+                )}
+              </View>
+            }
+          />
+        );
+      })
     );
   };
+
+  React.useEffect(() => {
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setChatId('');
+    });
+
+    return () => {
+      hideSubscription.remove();
+    };
+  }, []);
 
   React.useEffect(() => {
     if (isOpened) {
@@ -76,11 +134,15 @@ export const CustomDrawerContent = (props: any) => {
       <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
         <View style={styles.searchSection}>
           <Ionicons style={styles.searchIcon} name="search" size={20} color={COLORS.greyLight} />
-          <TextInput style={styles.input} placeholder="Search" underlineColorAndroid="transparent" />
+          <TextInput onChangeText={onSearchChats} style={styles.input} placeholder="Search" underlineColorAndroid="transparent" />
         </View>
       </View>
 
-      <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#fff', paddingTop: 0 }}>
+      <DrawerContentScrollView
+        keyboardDismissMode="interactive"
+        keyboardShouldPersistTaps="handled"
+        {...props}
+        contentContainerStyle={{ backgroundColor: '#fff', paddingTop: 0 }}>
         <DrawerItemList {...props} />
         {renderChatHistory()}
       </DrawerContentScrollView>
@@ -248,9 +310,18 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
   },
-  dallEImage: {
-    width: 28,
-    height: 28,
-    resizeMode: 'cover',
+  drawerItem: {
+    paddingVertical: 5,
+    justifyContent: 'center',
+    marginLeft: 20,
+    paddingRight: 20,
+    zIndex: -1,
+  },
+  drawerItemTextinput: {
+    color: COLORS.black,
+    borderColor: COLORS.primary,
+    paddingVertical: 5,
+    paddingHorizontal: 3,
+    borderWidth: 1,
   },
 });

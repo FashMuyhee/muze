@@ -46,8 +46,13 @@ export const userMenu = (onEditPrompt: () => void): MenuItem[] => {
     },
   ];
 };
-export const chatHistoryMenus = (onEdit: () => void, onDelete: () => void): MenuItem[] => {
+export const chatHistoryMenus = (onOpen: () => void, onEdit: () => void, onDelete: () => void): MenuItem[] => {
   return [
+    {
+      label: 'Open Chat',
+      icon: <Feather name="message-square" size={15} />,
+      onPress: onOpen,
+    },
     {
       label: 'Rename Chat',
       icon: <Feather name="edit-3" size={15} />,

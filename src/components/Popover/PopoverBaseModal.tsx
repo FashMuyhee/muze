@@ -1,4 +1,4 @@
-import { StyleSheet, Modal, Pressable, StyleProp, ViewStyle, View } from 'react-native';
+import { StyleSheet, Modal, Pressable, StyleProp, ViewStyle, } from 'react-native';
 import React from 'react';
 import { HorizontalPlacement, PopoverBaseModalProps, PopoverLayoutSize, VerticalPlacement } from './type';
 import Animated, {
@@ -119,6 +119,8 @@ const PopoverBaseModal = ({
       <Pressable style={styles.backdrop} onPress={onClose}>
         <Animated.View style={[styles.popoverContainer, verticalPlacementStyle, horizontalPlacementStyle]}>
           <Animated.View
+            accessibilityLabel="popover item"
+            accessibilityRole="menuitem"
             style={[styles.popover, animatedStyle, transformOrigin]}
             onLayout={({ nativeEvent: { layout } }) => {
               setLayout(layout);

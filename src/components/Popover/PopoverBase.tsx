@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import React from 'react';
 import { PopoverPosition, PopoverBaseProps, PopoverBaseRef } from './type';
 import PopoverBaseModal from './PopoverBaseModal';
@@ -34,6 +34,7 @@ const PopoverBase: React.ForwardRefRenderFunction<PopoverBaseRef, PopoverBasePro
         ref={dropdownRef}
         activeOpacity={0.7}
         style={styles.trigger}
+        accessibilityRole="menubar"
         onLongPress={() => {
           if (triggerBy === 'longPress') {
             handleToggleDropdown();
@@ -56,7 +57,6 @@ export default React.forwardRef(PopoverBase);
 
 const styles = StyleSheet.create({
   trigger: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex',
   },
 });
