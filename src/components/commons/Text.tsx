@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text as RNText } from 'react-native';
 import { TextProps } from './types';
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 
 export const Text: React.FunctionComponent<TextProps> = ({
   style,

@@ -1,5 +1,5 @@
-import { COLORS } from '@constants';
-import { IS_ANDROID } from '@constants/utilts';
+import { COLORS } from '@utils';
+import { IS_ANDROID } from '@utils/helpers';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen, Stack, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';

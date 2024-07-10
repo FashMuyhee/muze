@@ -2,7 +2,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import React from 'react';
 import { Suggestion, useRandomSuggestions } from '@hook';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { SW } from '@constants/utilts';
+import { SW } from '@utils/helpers';
 import { Text } from '@components/commons';
 
 type Props = {

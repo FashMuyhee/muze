@@ -1,4 +1,4 @@
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import { Content } from '@google/generative-ai';
 import React from 'react';
 import { View, StyleSheet, Image, Pressable } from 'react-native';

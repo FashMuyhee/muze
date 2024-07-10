@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import React from 'react';
-import { SW } from '@constants/utilts';
-import { COLORS } from '@constants';
+import { SW } from '@utils/helpers';
+import { COLORS } from '@utils';
 import { Button } from '@components';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';

@@ -2,9 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 import React from 'react';
 import Animated, { Extrapolation, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
-import { IS_ANDROID } from '@constants/utilts';
+import { IS_ANDROID } from '@utils/helpers';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import { FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
 type MessageFieldProps = {

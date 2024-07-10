@@ -1,6 +1,6 @@
 import { TextInput, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import { TextFieldProps } from './types';
 import { StackView } from './Flex';
 import { Ionicons } from '@expo/vector-icons';

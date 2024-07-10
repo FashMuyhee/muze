@@ -1,4 +1,4 @@
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import { memo } from 'react';
 import { StyleSheet, useWindowDimensions } from 'react-native';
 import Animated, {

@@ -1,11 +1,11 @@
 import { View, KeyboardAvoidingView, Image, StyleSheet, LayoutChangeEvent } from 'react-native';
 import React, { useState } from 'react';
 import { ChatBubble, MessageField, MessageFieldRef, SuggestedQuery } from '@components';
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import { FlashList } from '@shopify/flash-list';
 import { Content } from '@google/generative-ai';
 import { useAskGemini } from '@hook';
-import { IS_ANDROID } from '@constants/utilts';
+import { IS_ANDROID } from '@utils/helpers';
 import Speech from 'expo-speech';
 
 type Props = {};

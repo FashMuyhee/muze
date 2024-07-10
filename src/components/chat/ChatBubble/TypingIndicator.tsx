@@ -1,4 +1,4 @@
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming, withRepeat, withDelay, SharedValue } from 'react-native-reanimated';

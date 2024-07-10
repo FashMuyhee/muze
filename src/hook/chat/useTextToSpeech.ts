@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Speech from 'expo-speech';
-import { parseContentToString } from '@constants/utilts';
+import { parseContentToString } from '@utils/helpers';
 
 export const useTextToSpeech = () => {
   const [isSpeaking, setIsSpeaking] = React.useState(false);

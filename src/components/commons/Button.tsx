@@ -2,7 +2,7 @@ import { TouchableNativeFeedback, StyleSheet, ActivityIndicator, View } from 're
 import React from 'react';
 import { ButtonProps } from './types';
 import { Text } from './Text';
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 
 export const Button = ({
   onPress,

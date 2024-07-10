@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Pressable } from 'react-native';
 import React from 'react';
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import { FontAwesome6, Ionicons } from '@expo/vector-icons';
 import { Drawer } from 'expo-router/drawer';
 import { Link, useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
-import { SW } from '@constants/utilts';
+import { SW } from '@utils/helpers';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DropdownMenu } from '@components';

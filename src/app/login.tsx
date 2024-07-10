@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
 import React from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import { COLORS } from '@constants';
+import { COLORS } from '@utils';
 import { Button, Text } from '@components';
 import { onSignIn, onSignUp } from './hooks';
 import TextField from '@components/commons/TextField';
