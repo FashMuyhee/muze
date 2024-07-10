@@ -12,17 +12,18 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS } from '@utils';
-import { FontAwesome6, Ionicons } from '@expo/vector-icons';
+import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Drawer } from 'expo-router/drawer';
 import { Link, useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { SW } from '@utils/helpers';
 import { DrawerContentScrollView, DrawerItemList, useDrawerStatus } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { DropdownMenu, StackView, Text } from '@components';
+import { DropdownMenu, IconButton, StackView, Text } from '@components';
 import { Chat, deleteChat, getChats, renameChat } from '@utils/Database';
 import { useSQLiteContext } from 'expo-sqlite';
 import { chatHistoryMenus } from '@components/chat/ChatBubble/dropmenus';
+import { useAuth } from '@clerk/clerk-expo';
 
 type Props = {};
 
@@ -31,6 +32,9 @@ export const CustomDrawerContent = (props: any) => {
   const router = useRouter();
   const isOpened = useDrawerStatus() == 'open';
   const db = useSQLiteContext();
+  const { isSignedIn, signOut } = useAuth();
+
+  // STATE
   const [chats, setChats] = useState<Chat[]>([]);
   const [searchResult, setSearchResult] = useState<Chat[]>([]);
   const [chatId, setChatId] = useState('');
@@ -156,7 +160,7 @@ export const CustomDrawerContent = (props: any) => {
         <Pressable style={styles.footer}>
           <Image source={{ uri: 'https://galaxies.dev/img/meerkat_2.jpg' }} style={styles.avatar} />
           <Text style={styles.userName}>Mika Meerkat</Text>
-          <Ionicons name="ellipsis-horizontal" size={24} color={COLORS.greyLight} />
+          <IconButton onPress={signOut} icon={<MaterialIcons name="logout" size={24} color={COLORS.greyLight} />} />
         </Pressable>
       </View>
     </View>

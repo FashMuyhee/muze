@@ -1,4 +1,4 @@
-import { useSignIn, useSignUp } from '@clerk/clerk-expo';
+import { useSignIn, useSignUp, useOAuth, UseOAuthFlowParams } from '@clerk/clerk-expo';
 import React from 'react';
 import Snackbar from 'react-native-snackbar';
 
@@ -70,6 +70,25 @@ export const onSignUp = ({ email, password }: Form) => {
       }
     } else {
       Snackbar.show({ text: 'Invalid Email Address', duration: 3000 });
+      setLoading(false);
+    }
+  };
+
+  return { isLoading: loading, submit };
+};
+
+export const onSocialSignin = (social: UseOAuthFlowParams['strategy']) => {
+  const [loading, setLoading] = React.useState(false);
+  const { startOAuthFlow } = useOAuth({ strategy: social });
+
+  const submit = async () => {
+    try {
+      const result = await startOAuthFlow();
+      await result.setActive!({ session: result.createdSessionId });
+    } catch (err: any) {
+      const erMsg = err.errors[0]?.longMessage as string;
+      Snackbar.show({ text: erMsg, duration: 3000 });
+    } finally {
       setLoading(false);
     }
   };
