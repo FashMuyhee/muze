@@ -35,7 +35,7 @@ const ProfileSheet = ({ sheetId }: SheetProps<'profile'>) => {
   const { signOut } = useAuth();
   const { user } = useUser();
 
-  const { emailAddresses, firstName, lastName, imageUrl, passwordEnabled, createdAt } = user || {};
+  const { emailAddresses, firstName, lastName, imageUrl, passwordEnabled, createdAt, username } = user || {};
 
   const onSignOut = () => {
     SheetManager.hide(sheetId);
@@ -51,9 +51,14 @@ const ProfileSheet = ({ sheetId }: SheetProps<'profile'>) => {
           <Text numberLines={1} fontSize={13} color={COLORS.greyLight}>
             {emailAddresses?.at(0)?.emailAddress}
           </Text>
-          <Text numberLines={1} fontSize={12} color={COLORS.grey}>
-            Joined at {createdAt?.toDateString()}
-          </Text>
+          <StackView align="center" style={{ columnGap: 10 }}>
+            <Text numberLines={1} fontSize={13} color={COLORS.greyLight}>
+              @{username}
+            </Text>
+            <Text numberLines={1} fontSize={12} color={COLORS.grey}>
+              Joined at {createdAt?.toDateString()}
+            </Text>
+          </StackView>
         </View>
         <IconButton onPress={onSignOut} icon={<Feather name="log-out" size={24} color={COLORS.dark} />} />
       </StackView>
@@ -66,12 +71,14 @@ const ProfileSheet = ({ sheetId }: SheetProps<'profile'>) => {
           icon={<Ionicons name="person-add" size={15} color={COLORS.primary} />}
         />
         {passwordEnabled && (
-          <AccessibilityLink
-            onPress={() => SheetManager.show('change-password')}
-            link="Change Password"
-            bg={COLORS.primary}
-            icon={<Ionicons name="key" size={15} color={COLORS.primary} />}
-          />
+          <>
+            <AccessibilityLink
+              onPress={() => SheetManager.show('change-password')}
+              link="Change Password"
+              bg={COLORS.primary}
+              icon={<Ionicons name="key" size={15} color={COLORS.primary} />}
+            />
+          </>
         )}
         <AccessibilityLink
           onPress={() => SheetManager.show('delete-account')}

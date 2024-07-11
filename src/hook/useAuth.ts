@@ -139,3 +139,32 @@ export const onDeleteAccount = () => {
 
   return { isLoading, submit };
 };
+
+export const onUpdateProfile = () => {
+  const { user } = useUser();
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const submit = async (body: { firstName: string; lastName: string; username: string }) => {
+    setIsLoading(true);
+
+    try {
+      const res = await user?.update(body);
+      Snackbar.show({
+        text: 'Profile Updated successfully',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      res?.reload();
+      setIsLoading(false);
+    } catch (err) {
+      //@ts-ignore
+      const erMsg = err.errors[0]?.longMessage as string;
+      Snackbar.show({
+        text: erMsg ?? 'Failed to update  profile',
+        duration: Snackbar.LENGTH_LONG,
+      });
+      setIsLoading(false);
+    }
+  };
+
+  return { isLoading, submit };
+};

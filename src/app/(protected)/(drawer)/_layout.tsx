@@ -23,7 +23,7 @@ import { DropdownMenu, IconButton, StackView, Text } from '@components';
 import { Chat, deleteChat, getChats, renameChat } from '@utils/Database';
 import { useSQLiteContext } from 'expo-sqlite';
 import { chatHistoryMenus } from '@components/chat/ChatBubble/dropmenus';
-import { useAuth, useUser } from '@clerk/clerk-expo';
+import { useUser } from '@clerk/clerk-expo';
 import { SheetManager } from 'react-native-actions-sheet';
 
 type Props = {};
@@ -34,7 +34,7 @@ export const CustomDrawerContent = (props: any) => {
   const isOpened = useDrawerStatus() == 'open';
   const db = useSQLiteContext();
   const { user } = useUser();
-  const { emailAddresses, firstName, lastName, imageUrl, } = user || {};
+  const { emailAddresses, firstName, lastName, imageUrl, username } = user || {};
 
   // STATE
   const [chats, setChats] = useState<Chat[]>([]);
@@ -161,10 +161,13 @@ export const CustomDrawerContent = (props: any) => {
         }}>
         <Pressable style={styles.footer}>
           <Image source={{ uri: imageUrl }} style={styles.avatar} />
-          <View>
-            <Text numberLines={1} fontSize={14} color={COLORS.black}>{`${firstName} ${lastName}`}</Text>
+          <View style={{ flex: 1 }}>
+            <Text numberLines={1} fontSize={14} color={COLORS.black}>{`${firstName ?? ''} ${lastName ?? ''}`}</Text>
             <Text numberLines={1} fontSize={13} color={COLORS.greyLight}>
               {emailAddresses?.at(0)?.emailAddress}
+            </Text>
+            <Text numberLines={1} fontSize={13} color={COLORS.greyLight}>
+              @{username}
             </Text>
           </View>
           <IconButton onPress={() => SheetManager.show('profile')} icon={<MaterialIcons name="more-horiz" size={24} color={COLORS.greyLight} />} />
@@ -297,6 +300,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    backgroundColor: '#f4f4f4',
+    paddingHorizontal: 7,
+    paddingVertical: 10,
+    borderRadius: 5,
   },
   roundImage: {
     width: 30,
