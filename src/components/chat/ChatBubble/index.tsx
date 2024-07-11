@@ -1,7 +1,7 @@
 import { COLORS } from '@utils';
 import { Content } from '@google/generative-ai';
 import React from 'react';
-import { View, StyleSheet, Image, Pressable } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import TypingBubble from './TypingIndicator';
 import FormattedText from './FormattedText';
 import { DropdownMenu, HorizontalPlacement, VerticalPlacement } from '@components/Popover';
@@ -11,6 +11,7 @@ import Snackbar from 'react-native-snackbar';
 import { modelMenu, canRegenerateMenu, userMenu } from './dropmenus';
 import { Ionicons } from '@expo/vector-icons';
 import { IconButton } from '@components/commons';
+import { useUser } from '@clerk/clerk-expo';
 
 interface ChatBubbleProps extends Content {
   canRegenerate: boolean;
@@ -25,6 +26,8 @@ const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate, onEdit, user
   const loading = content == '';
 
   const { speak, isPaused } = useTextToSpeech();
+  const { user } = useUser();
+  const { imageUrl } = user || {};
 
   const onCopyToClipboard = async () => {
     await Clipboard.setStringAsync(content ?? '');
@@ -47,7 +50,7 @@ const ChatBubbleBase = ({ parts, role, onRegenerate, canRegenerate, onEdit, user
     return role === Role.Bot ? (
       <Image source={require('@assets/images/logo.png')} style={styles.avatar} />
     ) : (
-      <Image source={{ uri: 'https://galaxies.dev/img/meerkat_2.jpg' }} style={styles.avatar} />
+      <Image source={{ uri: imageUrl }} style={styles.avatar} />
     );
   };
 
